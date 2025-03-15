@@ -1,0 +1,71 @@
+name: "🐞 Bug Report"
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "## 🐞 Bug Report\nPlease provide a clear description of the issue."
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "🐞 Description"
+      description: "Provide a detailed description about the bug you are experiencing"
+      placeholder: "When I launch my game, it sold my kidney on Facebook Marketplace.... etc"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: "🔄 Steps to reproduce"
+      description: "List the steps to reproduce this bug."
+      placeholder: "1. Do this... 2. Click that... 3. See error"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: "✅ Expected behavior"
+      description: "What should have happened?"
+      placeholder: "I expected that..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: "❌ Actual behavior"
+      description: "What actually happened?"
+      placeholder: "Instead, I saw..."
+    validations:
+      required: true
+
+  - type: input
+    id: server_version
+    attributes:
+      label: "Version"
+      description: "Which version of the relay server are you using?"
+      placeholder: "e.g., 1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: "Environment"
+      description: "How are you running the server?"
+      placeholder: "e.g., Docker"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "📜 Logs & Screenshots"
+      description: "Upload logs, screenshots, or error messages."
+      placeholder: "Drag and drop files here or paste logs."
+    validations:
+      required: false

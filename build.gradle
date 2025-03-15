@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.0.0'
+}
+
+ext {
+    is_docker = project.properties['isDockerBuild'] ?: false
+}
+
+group = 'com.hypherionmc.sdlink'
+version = '1.0.0'
+mainClassName = "com.hypherionmc.sdlink.SDLinkRelayServerStandalone"
+
+configurations {
+    shaded
+    implementation.extendsFrom shaded
+}
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url "https://maven.firstdark.dev/releases"
+    }
+
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+dependencies {
+    shaded("io.javalin:javalin:6.1.3")
+    shaded 'com.google.code.gson:gson:2.11.0'
+    shaded 'commons-io:commons-io:2.16.1'
+    shaded("org.slf4j:slf4j-simple:2.0.10")
+
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+}
+
+jar {
+    setArchiveClassifier('slim')
+    finalizedBy(shadowJar)
+}
+
+shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    configurations = [project.configurations.getByName("shaded")]
+    mergeServiceFiles()
+    archiveClassifier.set(null)
+
+    if (is_docker) {
+        archiveFileName.set("server.jar")
+    }
+}
+
+shadowJar.doLast {
+    delete jar.archiveFile
+}
